@@ -6,6 +6,9 @@ import {
   ChevronDown, Calculator, Handshake, Award
 } from 'lucide-react';
 import { cn } from '../lib/utils';
+import { useNavigate } from 'react-router-dom';
+
+export const openWhatsAppModal = () => window.dispatchEvent(new Event('open-wa-modal'));
 
 const WHATSAPP_NUMBER = "5547992754066";
 const WHATSAPP_LINK = `https://wa.me/${WHATSAPP_NUMBER}?text=Ol%C3%A1%2C%20gostaria%20de%20solicitar%20um%20or%C3%A7amento%20para%20energia%20solar.`;
@@ -61,14 +64,12 @@ export function Header() {
           </nav>
 
           <div className="hidden md:block">
-            <a 
-              href={WHATSAPP_LINK}
-              target="_blank"
-              rel="noopener noreferrer"
+            <button 
+              onClick={openWhatsAppModal}
               className="bg-primary hover:bg-primary-dark text-white px-6 py-2.5 rounded-full font-medium transition-colors shadow-lg shadow-primary/20"
             >
               Falar com Especialista
-            </a>
+            </button>
           </div>
 
           <button 
@@ -93,14 +94,12 @@ export function Header() {
               {link.name}
             </a>
           ))}
-          <a 
-            href={WHATSAPP_LINK}
-            target="_blank"
-            rel="noopener noreferrer"
+          <button 
+            onClick={() => { setIsOpen(false); openWhatsAppModal(); }}
             className="block w-full text-center bg-primary text-white px-6 py-3 rounded-lg font-medium mt-4"
           >
             Falar com Especialista
-          </a>
+          </button>
         </div>
       )}
     </header>
@@ -367,6 +366,8 @@ export function Services() {
 }
 
 export function Simulation() {
+  const navigate = useNavigate();
+
   return (
     <section id="simulacao" className="py-20 bg-secondary text-white relative overflow-hidden">
       {/* Background pattern */}
@@ -390,6 +391,7 @@ export function Simulation() {
             <form className="bg-white p-8 rounded-3xl shadow-2xl text-secondary" onSubmit={(e) => {
               e.preventDefault();
               window.open(WHATSAPP_LINK, '_blank');
+              navigate('/obrigado');
             }}>
               <h3 className="text-2xl font-bold mb-6 text-center">Solicitar Simulação</h3>
               <div className="space-y-4">
@@ -456,15 +458,13 @@ export function CTA() {
         <FadeIn>
           <h2 className="text-4xl md:text-5xl font-bold mb-8">Pronto para começar a economizar?</h2>
           <p className="text-xl mb-10 text-white/90">Descubra quanto você pode economizar com um projeto feito sob medida para você.</p>
-          <a 
-            href={WHATSAPP_LINK}
-            target="_blank"
-            rel="noopener noreferrer"
+          <button 
+            onClick={openWhatsAppModal}
             className="inline-flex items-center gap-3 bg-white text-primary hover:bg-gray-50 px-8 py-4 rounded-full font-bold text-lg transition-all shadow-xl"
           >
             <MessageCircle className="w-6 h-6" />
             Solicite seu orçamento no WhatsApp
-          </a>
+          </button>
         </FadeIn>
       </div>
     </section>
@@ -581,14 +581,12 @@ export function Footer() {
 
 export function WhatsAppFloat() {
   return (
-    <a
-      href={WHATSAPP_LINK}
-      target="_blank"
-      rel="noopener noreferrer"
+    <button
+      onClick={openWhatsAppModal}
       className="fixed bottom-6 right-6 bg-[#25D366] text-white p-4 rounded-full shadow-2xl hover:scale-110 transition-transform z-50 flex items-center justify-center"
       aria-label="Falar no WhatsApp"
     >
       <MessageCircle className="w-8 h-8" />
-    </a>
+    </button>
   );
 }
